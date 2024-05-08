@@ -21,7 +21,7 @@ func ImageAliases(verbose bool, startTime time.Time) ([]string, int, string, tim
 	cmd := exec.Command("incus", "image", "ls", "--format=json")
 
 	if verbose {
-		fmt.Printf("[%.2fs] Running command: %s\n", time.Since(startTime).Seconds(), cmd.String())
+		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
 	}
 
 	var stdout bytes.Buffer
@@ -78,7 +78,7 @@ func ReportImageAliases(filter string, verbose bool, startTime time.Time) {
 	}
 
 	if verbose {
-		fmt.Printf("[%.2fs] Image alias retrieval took %s\n", time.Since(startTime).Seconds(), duration)
+		fmt.Printf("[%s] Image alias retrieval took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
 	}
 }
 
@@ -87,7 +87,7 @@ func ContainerInfo(container string, verbose bool, startTime time.Time) (string,
 	cmd := exec.Command("incus", "info", container)
 
 	if verbose {
-		fmt.Printf("[%.2fs] Running command: %s\n", time.Since(startTime).Seconds(), cmd.String())
+		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
 	}
 
 	var stdout bytes.Buffer
@@ -125,7 +125,7 @@ func FindImageByAlias(filter string, verbose bool, startTime time.Time) string {
 	}
 
 	if verbose {
-		fmt.Printf("[%.2fs] Image alias search took %s\n", time.Since(startTime).Seconds(), duration)
+		fmt.Printf("[%s] Image alias search took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
 	}
 
 	return ""
@@ -145,7 +145,7 @@ func ProcessImageCommand(filter, container string, verbose bool) {
 		}
 
 		if verbose {
-			fmt.Printf("[%.2fs] Container info retrieval took %s\n", time.Since(startTime).Seconds(), duration)
+			fmt.Printf("[%s] Container info retrieval took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
 		}
 	}
 }

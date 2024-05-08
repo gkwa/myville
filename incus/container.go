@@ -13,7 +13,7 @@ func ContainerExists(name string, verbose bool, startTime time.Time) (bool, stri
 	cmd := exec.Command("incus", "ls", "--format=json")
 
 	if verbose {
-		fmt.Printf("[%.2fs] Running command: %s\n", time.Since(startTime).Seconds(), cmd.String())
+		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
 	}
 
 	var stdout bytes.Buffer
@@ -57,7 +57,7 @@ func RemoveContainer(name string, verbose bool, startTime time.Time) (string, in
 	cmd := exec.Command("incus", "rm", "--force", name)
 
 	if verbose {
-		fmt.Printf("[%.2fs] Running command: %s\n", time.Since(startTime).Seconds(), cmd.String())
+		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
 	}
 
 	var stdout bytes.Buffer
@@ -98,12 +98,12 @@ func WaitForContainerRemoval(name string, verbose bool, startTime time.Time) boo
 			exists, _, _, _, duration := ContainerExists(name, verbose, startTime)
 			if !exists {
 				if verbose {
-					fmt.Printf("[%.2fs] Container %s removed successfully (took %s)\n", time.Since(startTime).Seconds(), name, duration)
+					fmt.Printf("[%s] Container %s removed successfully (took %s)\n", time.Since(startTime).Truncate(time.Second), name, duration.Truncate(time.Second))
 				}
 				return true
 			}
 			if verbose {
-				fmt.Printf("[%.2fs] Container %s still exists, removing...\n", time.Since(startTime).Seconds(), name)
+				fmt.Printf("[%s] Container %s still exists, removing...\n", time.Since(startTime).Truncate(time.Second), name)
 			}
 			RemoveContainer(name, verbose, startTime)
 		}
@@ -115,7 +115,7 @@ func LaunchContainer(imageName, containerName string, verbose bool, startTime ti
 	cmd := exec.Command("incus", "launch", imageName, containerName)
 
 	if verbose {
-		fmt.Printf("[%.2fs] Running command: %s\n", time.Since(startTime).Seconds(), cmd.String())
+		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
 	}
 
 	var stdout bytes.Buffer
@@ -156,12 +156,12 @@ func WaitForContainerCreation(name string, verbose bool, startTime time.Time) bo
 			exists, _, _, _, duration := ContainerExists(name, verbose, startTime)
 			if exists {
 				if verbose {
-					fmt.Printf("[%.2fs] Container %s created successfully (took %s)\n", time.Since(startTime).Seconds(), name, duration)
+					fmt.Printf("[%s] Container %s created successfully (took %s)\n", time.Since(startTime).Truncate(time.Second), name, duration.Truncate(time.Second))
 				}
 				return true
 			}
 			if verbose {
-				fmt.Printf("[%.2fs] Waiting for container %s to be created...\n", time.Since(startTime).Seconds(), name)
+				fmt.Printf("[%s] Waiting for container %s to be created...\n", time.Since(startTime).Truncate(time.Second), name)
 			}
 		}
 	}
@@ -190,7 +190,7 @@ func ProcessContainerCommand(filter, name string, verbose bool) {
 	_, _, _, duration := LaunchContainer(imageName, name, verbose, startTime)
 
 	if verbose {
-		fmt.Printf("[%.2fs] Launch command took %s\n", time.Since(startTime).Seconds(), duration)
+		fmt.Printf("[%s] Launch command took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
 	}
 
 	if !WaitForContainerCreation(name, verbose, startTime) {
