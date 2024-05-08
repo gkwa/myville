@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"os"
 	"os/exec"
 	"time"
 )
@@ -180,10 +181,10 @@ func ProcessContainerCommand(filter, name string, verbose bool) {
 		fmt.Printf("Container %s removed successfully\n", name)
 	}
 
-	imageName := FindImageByAlias(filter, verbose, startTime)
-	if imageName == "" {
-		fmt.Printf("No image found matching filter: %s\n", filter)
-		return
+	imageName, err := FindImageByAlias(filter, verbose, startTime)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+		os.Exit(1)
 	}
 
 	fmt.Printf("Launching container %s from image %s\n", name, imageName)

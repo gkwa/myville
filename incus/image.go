@@ -3,6 +3,7 @@ package incus
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os/exec"
 	"sort"
@@ -115,12 +116,13 @@ func ContainerInfo(container string, verbose bool, startTime time.Time) (string,
 	return stdoutStr, exitCode, stderrStr, duration
 }
 
-func FindImageByAlias(filter string, verbose bool, startTime time.Time) string {
+func FindImageByAlias(filter string, verbose bool, startTime time.Time) (string, error) {
 	aliasNames, _, _, duration := ImageAliases(verbose, startTime)
+	var matchingImages []string
 
 	for _, aliasName := range aliasNames {
 		if strings.Contains(strings.ToLower(aliasName), strings.ToLower(filter)) {
-			return aliasName
+			matchingImages = append(matchingImages, aliasName)
 		}
 	}
 
@@ -128,7 +130,18 @@ func FindImageByAlias(filter string, verbose bool, startTime time.Time) string {
 		fmt.Printf("[%s] Image alias search took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
 	}
 
-	return ""
+	if len(matchingImages) == 0 {
+		return "", errors.New("no images found matching the filter")
+	} else if len(matchingImages) > 1 {
+		errorMsg := fmt.Sprintf("multiple images match the filter '%s':\n", filter)
+		for _, imageName := range matchingImages {
+			errorMsg += imageName + "\n"
+		}
+		errorMsg += "please refine the filter to match a single image"
+		return "", errors.New(errorMsg)
+	} else {
+		return matchingImages[0], nil
+	}
 }
 
 func ProcessImageCommand(filter, container string, verbose bool) {
