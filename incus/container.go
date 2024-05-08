@@ -144,8 +144,8 @@ func LaunchContainer(imageName, containerName string, verbose bool, startTime ti
 }
 
 func WaitForContainerCreation(name string, verbose bool, startTime time.Time) bool {
-	timeout := time.After(20 * time.Second)
-	ticker := time.NewTicker(1 * time.Second)
+	timeout := time.After(20 * time.Minute)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
 	for {
@@ -187,14 +187,19 @@ func ProcessContainerCommand(filter, name string, verbose bool) {
 	}
 
 	fmt.Printf("Launching container %s from image %s\n", name, imageName)
-	_, _, _, duration := LaunchContainer(imageName, name, verbose, startTime)
+	_, exitCode, stderrStr, duration := LaunchContainer(imageName, name, verbose, startTime)
 
 	if verbose {
 		fmt.Printf("[%s] Launch command took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
 	}
 
+	if exitCode != 0 {
+		fmt.Printf("Failed to launch container %s: %s\n", name, stderrStr)
+		return
+	}
+
 	if !WaitForContainerCreation(name, verbose, startTime) {
-		fmt.Printf("Failed to create container %s\n", name)
+		fmt.Printf("Timed out waiting for container %s to be created\n", name)
 		return
 	}
 
