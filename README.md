@@ -4,7 +4,7 @@ This is nonsense and terraform with incus is way better, but I don't want to mes
 
 Launch container base off custom image 005_silly_goose
 ```bash
-myville image
+myville images
 myville container silly u
 
 ```
