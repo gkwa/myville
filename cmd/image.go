@@ -5,15 +5,10 @@ import (
 	"github.com/taylormonacelli/myville/incus"
 )
 
-var imageCmd = &cobra.Command{
-	Use:   "image [filter] [container]",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+var imagesCmd = &cobra.Command{
+	Use:   "images [filter] [container]",
+	Short: "list local images",
+	Long:  `equivilent to running 'incus image ls'`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var filter, container string
 		if len(args) > 0 {
@@ -28,6 +23,6 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(imageCmd)
-	imageCmd.Flags().BoolP("verbose", "v", false, "Enable verbose output")
+	rootCmd.AddCommand(imagesCmd)
+	imagesCmd.Flags().BoolP("verbose", "v", false, "Enable verbose output")
 }
