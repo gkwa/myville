@@ -5,10 +5,10 @@ import (
 	"github.com/taylormonacelli/myville/incus"
 )
 
-var imagessCmd = &cobra.Command{
-	Use:   "imagess [filter] [container]",
-	Short: "list local imagess",
-	Long:  `equivilent to running 'incus images ls'`,
+var imagesCmd = &cobra.Command{
+	Use:   "images [filter] [container]",
+	Short: "list local images",
+	Long:  `equivilent to running 'incus image ls'`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var filter, container string
 		if len(args) > 0 {
@@ -23,6 +23,6 @@ var imagessCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(imagessCmd)
-	imagessCmd.Flags().BoolP("verbose", "v", false, "Enable verbose output")
+	rootCmd.AddCommand(imagesCmd)
+	imagesCmd.Flags().BoolP("verbose", "v", false, "Enable verbose output")
 }

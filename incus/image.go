@@ -19,7 +19,7 @@ type ImageInfo struct {
 
 func ImageAliases(verbose bool, startTime time.Time) ([]string, int, string, time.Duration) {
 	cmdStart := time.Now()
-	cmd := exec.Command("incus", "images", "ls", "--format=json")
+	cmd := exec.Command("incus", "image", "ls", "--format=json")
 
 	if verbose {
 		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
@@ -47,14 +47,14 @@ func ImageAliases(verbose bool, startTime time.Time) ([]string, int, string, tim
 	stdoutStr := stdout.String()
 	stderrStr := stderr.String()
 
-	var imagess []ImageInfo
-	if err := json.Unmarshal([]byte(stdoutStr), &imagess); err != nil {
+	var images []ImageInfo
+	if err := json.Unmarshal([]byte(stdoutStr), &images); err != nil {
 		return nil, exitCode, stderrStr, duration
 	}
 
 	var aliasNames []string
-	for _, images := range imagess {
-		for _, alias := range images.Aliases {
+	for _, image := range images {
+		for _, alias := range image.Aliases {
 			aliasNames = append(aliasNames, alias.Name)
 		}
 	}
@@ -131,13 +131,13 @@ func FindImageByAlias(filter string, verbose bool, startTime time.Time) (string,
 	}
 
 	if len(matchingImages) == 0 {
-		return "", errors.New("no imagess found matching the filter")
+		return "", errors.New("no images found matching the filter")
 	} else if len(matchingImages) > 1 {
-		errorMsg := fmt.Sprintf("multiple imagess match the filter '%s':\n", filter)
-		for _, imagesName := range matchingImages {
-			errorMsg += imagesName + "\n"
+		errorMsg := fmt.Sprintf("multiple images match the filter '%s':\n", filter)
+		for _, imageName := range matchingImages {
+			errorMsg += imageName + "\n"
 		}
-		errorMsg += "please refine the filter to match a single images"
+		errorMsg += "please refine the filter to match a single image"
 		return "", errors.New(errorMsg)
 	} else {
 		return matchingImages[0], nil
