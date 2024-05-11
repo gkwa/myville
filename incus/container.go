@@ -111,9 +111,9 @@ func WaitForContainerRemoval(name string, verbose bool, startTime time.Time) boo
 	}
 }
 
-func LaunchContainer(imageName, containerName string, verbose bool, startTime time.Time) (string, int, string, time.Duration) {
+func LaunchContainer(imagesName, containerName string, verbose bool, startTime time.Time) (string, int, string, time.Duration) {
 	cmdStart := time.Now()
-	cmd := exec.Command("incus", "launch", imageName, containerName)
+	cmd := exec.Command("incus", "launch", imagesName, containerName)
 
 	if verbose {
 		fmt.Printf("[%s] Running command: %s\n", time.Since(startTime).Truncate(time.Second), cmd.String())
@@ -181,14 +181,14 @@ func ProcessContainerCommand(filter, name string, verbose bool) {
 		fmt.Printf("Container %s removed successfully\n", name)
 	}
 
-	imageName, err := FindImageByAlias(filter, verbose, startTime)
+	imagesName, err := FindImageByAlias(filter, verbose, startTime)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err.Error())
 		os.Exit(1)
 	}
 
-	fmt.Printf("Launching container %s from image %s\n", name, imageName)
-	_, exitCode, stderrStr, duration := LaunchContainer(imageName, name, verbose, startTime)
+	fmt.Printf("Launching container %s from images %s\n", name, imagesName)
+	_, exitCode, stderrStr, duration := LaunchContainer(imagesName, name, verbose, startTime)
 
 	if verbose {
 		fmt.Printf("[%s] Launch command took %s\n", time.Since(startTime).Truncate(time.Second), duration.Truncate(time.Second))
