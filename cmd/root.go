@@ -52,10 +52,10 @@ func init() {
 	var err error
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.myville.yaml)")
-	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enable verbose mode")
-	err = viper.BindPFlag("verbose", rootCmd.PersistentFlags().Lookup("verbose"))
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "quiet", "q", false, "disable verbose mode")
+	err = viper.BindPFlag("quiet", rootCmd.PersistentFlags().Lookup("quiet"))
 	if err != nil {
-		slog.Error("error binding verbose flag", "error", err)
+		slog.Error("error binding quiet flag", "error", err)
 		os.Exit(1)
 	}
 
@@ -100,7 +100,7 @@ func initConfig() {
 	}
 
 	logFormat = viper.GetString("log-format")
-	verbose = viper.GetBool("verbose")
+	verbose = !viper.GetBool("quiet")
 
 	slog.Debug("using config file", "path", viper.ConfigFileUsed())
 	slog.Debug("log-format", "value", logFormat)

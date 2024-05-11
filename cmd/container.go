@@ -28,12 +28,12 @@ to quickly create a Cobra application.`,
 		}
 		filter := args[0]
 		name := args[1]
-		verbose, _ := cmd.Flags().GetBool("verbose")
-		incus.ProcessContainerCommand(filter, name, verbose)
+		quiet, _ := cmd.Flags().GetBool("quiet")
+		incus.ProcessContainerCommand(filter, name, !quiet)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(containerCmd)
-	containerCmd.Flags().BoolP("verbose", "v", false, "Enable verbose output")
+	containerCmd.Flags().BoolP("quiet", "q", false, "Disable verbose output")
 }

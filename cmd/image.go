@@ -8,7 +8,7 @@ import (
 var imagesCmd = &cobra.Command{
 	Use:     "images [filter] [container]",
 	Short:   "list local images",
-	Long:    `equivilent to running 'incus image ls'`,
+	Long:    `equivalent to running 'incus image ls'`,
 	Aliases: []string{"images"},
 	Run: func(cmd *cobra.Command, args []string) {
 		var filter, container string
@@ -18,12 +18,12 @@ var imagesCmd = &cobra.Command{
 		if len(args) > 1 {
 			container = args[1]
 		}
-		verbose, _ := cmd.Flags().GetBool("verbose")
-		incus.ProcessImageCommand(filter, container, verbose)
+		quiet, _ := cmd.Flags().GetBool("quiet")
+		incus.ProcessImageCommand(filter, container, !quiet)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(imagesCmd)
-	imagesCmd.Flags().BoolP("verbose", "v", false, "Enable verbose output")
+	imagesCmd.Flags().BoolP("quiet", "q", false, "Disable verbose output")
 }
