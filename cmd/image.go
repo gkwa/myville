@@ -6,9 +6,10 @@ import (
 )
 
 var imagesCmd = &cobra.Command{
-	Use:   "images [filter] [container]",
-	Short: "list local images",
-	Long:  `equivilent to running 'incus image ls'`,
+	Use:     "images [filter] [container]",
+	Short:   "list local images",
+	Long:    `equivilent to running 'incus image ls'`,
+	Aliases: []string{"images"},
 	Run: func(cmd *cobra.Command, args []string) {
 		var filter, container string
 		if len(args) > 0 {
