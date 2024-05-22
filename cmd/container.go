@@ -9,8 +9,9 @@ import (
 )
 
 var containerCmd = &cobra.Command{
-	Use:   "container [filter] [name]",
-	Short: "A brief description of your command",
+	Use:     "container [filter] [name]",
+	Short:   "A brief description of your command",
+	Aliases: []string{"c"},
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
