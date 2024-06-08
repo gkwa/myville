@@ -1,11 +1,11 @@
-module github.com/gkwa/myville
+module github.com/taylormonacelli/myville
 
 go 1.21.4
 
 require (
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.17.0
-	github.com/gkwa/goldbug v0.0.6
+	github.com/taylormonacelli/goldbug v0.0.6
 )
 
 require (
