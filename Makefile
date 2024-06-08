@@ -8,7 +8,7 @@ VERSION := $(shell git describe --tags --abbrev=8 --dirty --always --long)
 SHORT_SHA := $(shell git rev-parse --short HEAD)
 FULL_SHA := $(shell git rev-parse HEAD)
 
-PREFIX := github.com/taylormonacelli/myville/version
+PREFIX := github.com/gkwa/myville/version
 LDFLAGS = -s -w
 LDFLAGS += -X '$(PREFIX).Version=$(VERSION)'
 LDFLAGS += -X '$(PREFIX).Date=$(DATE)'
