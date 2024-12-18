@@ -38,7 +38,6 @@ Use the --quiet flag to suppress output during container creation.`,
 	},
 }
 
-
 func init() {
 	rootCmd.AddCommand(containerCmd)
 	containerCmd.Flags().BoolP("quiet", "q", false, "Disable verbose output")
