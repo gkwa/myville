@@ -30,7 +30,7 @@ check: tidy fmt lint vet
 build: $(BIN)
 
 $(BIN): $(SRC) # $(SRC)
-	go build -ldflags "$(LDFLAGS)" -o $@ 
+	go build -ldflags "$(LDFLAGS)" -o $@
 
 .PHONY: tidy # go tidy
 tidy:
