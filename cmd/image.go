@@ -35,6 +35,9 @@ var rmImageCmd = &cobra.Command{
 		}
 		quiet, _ := cmd.Flags().GetBool("quiet")
 		dryRun, _ := cmd.Flags().GetBool("dry-run")
+		if !dryRun {
+			dryRun, _ = cmd.Flags().GetBool("n")
+		}
 		incus.ProcessImageRemoveCommand(args, !quiet, dryRun)
 	},
 }
@@ -45,5 +48,6 @@ func init() {
 
 	imagesCmd.AddCommand(rmImageCmd)
 	rmImageCmd.Flags().BoolP("quiet", "q", false, "Disable verbose output")
-	rmImageCmd.Flags().BoolP("dry-run", "n", false, "Show what would be deleted without actually deleting")
+	rmImageCmd.Flags().BoolP("n", "n", false, "Show what would be deleted without actually deleting")
+	rmImageCmd.Flags().BoolP("dry-run", "", false, "Show what would be deleted without actually deleting")
 }
