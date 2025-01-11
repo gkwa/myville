@@ -25,10 +25,10 @@ jobs:
           go-version: ">=1.21.1"
       - name: Set GOVERSION environment variable (Linux/macOS)
         if: runner.os != 'Windows'
-        run: echo "GOVERSION=$(go version)" >> $GITHUB_ENV
+        run: echo "GOVERSION=$(go version)" >>"$GITHUB_ENV"
       - name: Set GOVERSION environment variable (Windows)
         if: runner.os == 'Windows'
-        run: echo "GOVERSION=$(go version)" | Out-File -FilePath $env:GITHUB_ENV -Append
+        run: echo "GOVERSION=$(go version)" | Out-File -FilePath "$env:GITHUB_ENV" -Append
       - name: Build & Test
         run: |
           go build -v
