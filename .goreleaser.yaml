@@ -17,11 +17,11 @@ builds:
     id: myville
     ldflags:
       - -s -w
-        -X "github.com/taylormonacelli/myville/version.Version={{.Version}}"
-        -X "github.com/taylormonacelli/myville/version.Date={{.CommitDate}}"
-        -X "github.com/taylormonacelli/myville/version.GoVersion={{.Env.GOVERSION}}"
-        -X "github.com/taylormonacelli/myville/version.ShortGitSHA={{.ShortCommit}}"
-        -X "github.com/taylormonacelli/myville/version.FullGitSHA={{.FullCommit}}"
+        -X "github.com/gkwa/myville/version.Version={{.Version}}"
+        -X "github.com/gkwa/myville/version.Date={{.CommitDate}}"
+        -X "github.com/gkwa/myville/version.GoVersion={{.Env.GOVERSION}}"
+        -X "github.com/gkwa/myville/version.ShortGitSHA={{.ShortCommit}}"
+        -X "github.com/gkwa/myville/version.FullGitSHA={{.FullCommit}}"
 archives:
   - format: tar.gz
     name_template: |-
